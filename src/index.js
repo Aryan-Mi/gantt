@@ -77,7 +77,7 @@ export default class Gantt {
         } else {
             throw new TypeError(
                 'Frappe Gantt only supports usage of a string CSS selector,' +
-                    " HTML DOM element or SVG DOM element for the 'element' parameter",
+                    "HTML DOM element or SVG DOM element for the 'element' parameter"
             );
         }
 
@@ -143,7 +143,7 @@ export default class Gantt {
             if (diff < 0) {
                 throw Error(
                     "start of task can't be after end of task: in task #, " +
-                        (i + 1),
+                        (i + 1)
                 );
             }
             // make task invalid if duration too large
@@ -293,7 +293,7 @@ export default class Gantt {
         gantt_start = date_utils.add(
             gantt_start,
             -padding_start.duration,
-            padding_start.scale,
+            padding_start.scale
         );
 
         let format_string;
@@ -307,13 +307,13 @@ export default class Gantt {
             format_string = 'YYYY-MM-DD HH';
         }
         this.gantt_start = date_utils.parse(
-            date_utils.format(gantt_start, format_string),
+            date_utils.format(gantt_start, format_string)
         );
         this.gantt_start.setHours(0, 0, 0, 0);
         this.gantt_end = date_utils.add(
             gantt_end,
             padding_end.duration,
-            padding_end.scale,
+            padding_end.scale
         );
     }
 
@@ -333,7 +333,7 @@ export default class Gantt {
                     cur_date = date_utils.add(
                         cur_date,
                         this.options.step,
-                        'hour',
+                        'hour'
                     );
                 }
             }
@@ -482,7 +482,7 @@ export default class Gantt {
                 'change',
                 function () {
                     this.change_view_mode($select.value);
-                }.bind(this),
+                }.bind(this)
             );
             $side_header.appendChild($select);
         }
@@ -502,11 +502,11 @@ export default class Gantt {
 
         window.addEventListener(
             'scroll',
-            this.update_button_position.bind(this),
+            this.update_button_position.bind(this)
         );
         window.addEventListener(
             'resize',
-            this.update_button_position.bind(this),
+            this.update_button_position.bind(this)
         );
     }
 
@@ -529,7 +529,7 @@ export default class Gantt {
         }
         const width = Math.min(
             this.$header.clientWidth,
-            this.$container.clientWidth,
+            this.$container.clientWidth
         );
 
         this.$side_header.style.left =
@@ -680,7 +680,7 @@ export default class Gantt {
             }
         }
 
-        return { x }
+        return { x };
     }
 
     make_grid_highlights() {
@@ -695,9 +695,10 @@ export default class Gantt {
         ) {
             // Used as we must find the _end_ of session if view is not Day
             const { x: left, date } = this.computeGridHighlightDimensions(
-                this.options.view_mode,
+                this.options.view_mode
             );
-            if (!date || !this.dates.find((d) => d.getTime() == date.getTime())) return;
+            if (!date || !this.dates.find((d) => d.getTime() == date.getTime()))
+                return;
             const top = this.options.header_height + this.options.padding / 2;
             const height =
                 (this.options.bar_height + this.options.padding) *
@@ -710,7 +711,7 @@ export default class Gantt {
                 append_to: this.$container,
             });
             let $today = document.getElementById(
-                date_utils.format(date).replaceAll(' ', '_'),
+                date_utils.format(date).replaceAll(' ', '_')
             );
             if ($today) {
                 $today.classList.add('current-date-highlight');
@@ -782,12 +783,12 @@ export default class Gantt {
             'Quarter Day_lower': date_utils.format(
                 date,
                 'HH',
-                this.options.language,
+                this.options.language
             ),
             'Half Day_lower': date_utils.format(
                 date,
                 'HH',
-                this.options.language,
+                this.options.language
             ),
             Day_lower:
                 date.getDate() !== last_date.getDate()
@@ -813,7 +814,7 @@ export default class Gantt {
                         ? date_utils.format(
                               date,
                               'D MMM',
-                              this.options.language,
+                              this.options.language
                           )
                         : date_utils.format(date, 'D', this.options.language)
                     : '',
@@ -870,14 +871,14 @@ export default class Gantt {
                 ? this.options.upper_text(
                       date,
                       this.options.view_mode,
-                      date_text[`${this.options.view_mode}_upper`],
+                      date_text[`${this.options.view_mode}_upper`]
                   )
                 : date_text[`${this.options.view_mode}_upper`],
             lower_text: this.options.lower_text
                 ? this.options.lower_text(
                       date,
                       this.options.view_mode,
-                      date_text[`${this.options.view_mode}_lower`],
+                      date_text[`${this.options.view_mode}_lower`]
                   )
                 : date_text[`${this.options.view_mode}_lower`],
             upper_x: base_pos.x + x_pos[`${this.options.view_mode}_upper`],
@@ -906,7 +907,7 @@ export default class Gantt {
                     const arrow = new Arrow(
                         this,
                         this.bars[dependency._index], // from_task
-                        this.bars[task._index], // to_task
+                        this.bars[task._index] // to_task
                     );
                     this.layers.arrow.appendChild(arrow.element);
                     return arrow;
@@ -1049,13 +1050,13 @@ export default class Gantt {
 
             let currentUpper = date_utils.format(
                 date_utils.add(this.gantt_start, daysSinceStart, 'day'),
-                format_str,
+                format_str
             );
             const upperTexts = Array.from(
-                document.querySelectorAll('.upper-text'),
+                document.querySelectorAll('.upper-text')
             );
             const $el = upperTexts.find(
-                (el) => el.textContent === currentUpper,
+                (el) => el.textContent === currentUpper
             );
             if ($el && !$el.classList.contains('current-upper')) {
                 const $current = document.querySelector('.current-upper');
@@ -1297,7 +1298,7 @@ export default class Gantt {
 
     trigger_event(event, args) {
         if (this.options['on_' + event]) {
-            this.options['on_' + event].apply(this, args)
+            this.options['on_' + event].apply(this, args);
         }
     }
 
@@ -1312,7 +1313,7 @@ export default class Gantt {
         return this.tasks
             .map((task) => task._start)
             .reduce((prev_date, cur_date) =>
-                cur_date <= prev_date ? cur_date : prev_date,
+                cur_date <= prev_date ? cur_date : prev_date
             );
     }
 
