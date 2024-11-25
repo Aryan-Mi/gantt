@@ -6,16 +6,20 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, 'src/index.js'),
             name: 'Gantt',
-            fileName: 'frappe-gantt',
+            fileName: 'frappe-gantt'
         },
         rollupOptions: {
             output: {
                 format: 'cjs',
                 assetFileNames: 'frappe-gantt[extname]',
                 entryFileNames: 'frappe-gantt.[format].js'
-            },
-        },
+            }
+        }
     },
     output: { interop: 'auto' },
-    server: { watch: { include: ['dist/*', 'src/*'] } }
+    server: {
+        watch: {
+            include: ['dist/**', 'src/**']
+        }
+    }
 });
