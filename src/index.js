@@ -263,7 +263,8 @@ export default class Gantt {
     }
 
     setup_gantt_dates() {
-        this.gantt_start = this.gantt_end = null;
+        this.gantt_start = null;
+        this.gantt_end = null;
 
         for (let task of this.tasks) {
             // set global start and end date
@@ -318,24 +319,16 @@ export default class Gantt {
     }
 
     setup_date_values() {
-        this.dates = [];
-        let cur_date = null;
+        let cur_date = date_utils.clone(this.gantt_start);
+        this.dates = [cur_date];
 
-        while (cur_date === null || cur_date < this.gantt_end) {
-            if (!cur_date) {
-                cur_date = date_utils.clone(this.gantt_start);
+        while (cur_date < this.gantt_end) {
+            if (this.view_is(VIEW_MODE.YEAR)) {
+                cur_date = date_utils.add(cur_date, 1, 'year');
+            } else if (this.view_is(VIEW_MODE.MONTH)) {
+                cur_date = date_utils.add(cur_date, 1, 'month');
             } else {
-                if (this.view_is(VIEW_MODE.YEAR)) {
-                    cur_date = date_utils.add(cur_date, 1, 'year');
-                } else if (this.view_is(VIEW_MODE.MONTH)) {
-                    cur_date = date_utils.add(cur_date, 1, 'month');
-                } else {
-                    cur_date = date_utils.add(
-                        cur_date,
-                        this.options.step,
-                        'hour'
-                    );
-                }
+                cur_date = date_utils.add(cur_date, this.options.step, 'hour');
             }
             this.dates.push(cur_date);
         }
