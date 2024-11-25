@@ -132,7 +132,7 @@ export default class Bar {
             this.$expected_bar_progress,
             'width',
             0,
-            this.expected_progress_width,
+            this.expected_progress_width
         );
     }
 
@@ -290,9 +290,9 @@ export default class Bar {
                 (timeout = setTimeout(() => {
                     this.show_popup(e.offsetX || e.layerX);
                     document.getElementById(
-                        `${task_id}-highlight`,
+                        `${task_id}-highlight`
                     ).style.display = 'block';
-                }, 200)),
+                }, 200))
         );
 
         $.on(this.group, 'mouseleave', () => {
@@ -325,12 +325,12 @@ export default class Bar {
         const start_date = date_utils.format(
             this.task._start,
             'MMM D',
-            this.gantt.options.language,
+            this.gantt.options.language
         );
         const end_date = date_utils.format(
             date_utils.add(this.task._end, -1, 'second'),
             'MMM D',
-            this.gantt.options.language,
+            this.gantt.options.language
         );
         const subtitle = `${start_date} -  ${end_date}<br/>Progress: ${this.task.progress}`;
 
@@ -450,7 +450,7 @@ export default class Bar {
         let new_start_date = date_utils.add(
             this.gantt.gantt_start,
             x_in_units * this.gantt.options.step,
-            'hour',
+            'hour'
         );
         const start_offset =
             this.gantt.gantt_start.getTimezoneOffset() -
@@ -459,7 +459,7 @@ export default class Bar {
             new_start_date = date_utils.add(
                 new_start_date,
                 start_offset,
-                'minute',
+                'minute'
             );
         }
 
@@ -467,7 +467,7 @@ export default class Bar {
         const new_end_date = date_utils.add(
             new_start_date,
             width_in_units * this.gantt.options.step,
-            'hour',
+            'hour'
         );
 
         return { new_start_date, new_end_date };
@@ -504,10 +504,14 @@ export default class Bar {
         and then add the days in the month, making sure the number does not exceed 29
         so it is within the column */
         if (this.gantt.view_is('Month')) {
-            const diffDaysBasedOn30DayMonths = date_utils.diff(task_start, gantt_start, 'month') * 30;
-            const dayInMonth = Math.min(29, date_utils.format(task_start, "DD"));
+            const diffDaysBasedOn30DayMonths =
+                date_utils.diff(task_start, gantt_start, 'month') * 30;
+            const dayInMonth = Math.min(
+                29,
+                date_utils.format(task_start, 'DD')
+            );
             const diff = diffDaysBasedOn30DayMonths + dayInMonth;
-            
+
             x = (diff * column_width) / 30;
         }
         this.x = x;
@@ -575,7 +579,7 @@ export default class Bar {
             'width',
             this.gantt.options.column_width *
                 this.duration *
-                (this.expected_progress / 100) || 0,
+                (this.expected_progress / 100) || 0
         );
     }
 
@@ -584,7 +588,7 @@ export default class Bar {
         this.$bar_progress.setAttribute('x', this.$bar.getX());
         this.$bar_progress.setAttribute(
             'width',
-            this.$bar.getWidth() * (this.task.progress / 100),
+            this.$bar.getWidth() * (this.task.progress / 100)
         );
     }
 
@@ -604,11 +608,11 @@ export default class Bar {
                 img.setAttribute('x', bar.getX() + bar.getWidth() + padding);
                 img_mask.setAttribute(
                     'x',
-                    bar.getX() + bar.getWidth() + padding,
+                    bar.getX() + bar.getWidth() + padding
                 );
                 label.setAttribute(
                     'x',
-                    bar.getX() + bar.getWidth() + x_offset_label_img,
+                    bar.getX() + bar.getWidth() + x_offset_label_img
                 );
             } else {
                 label.setAttribute('x', bar.getX() + bar.getWidth() + padding);
@@ -620,12 +624,12 @@ export default class Bar {
                 img_mask.setAttribute('x', bar.getX() + padding);
                 label.setAttribute(
                     'x',
-                    bar.getX() + barWidth / 2 + x_offset_label_img,
+                    bar.getX() + barWidth / 2 + x_offset_label_img
                 );
             } else {
                 label.setAttribute(
                     'x',
-                    bar.getX() + barWidth / 2 - labelWidth / 2,
+                    bar.getX() + barWidth / 2 - labelWidth / 2
                 );
             }
         }
@@ -650,12 +654,4 @@ export default class Bar {
             arrow.update();
         }
     }
-}
-
-function isFunction(functionToCheck) {
-    let getType = {};
-    return (
-        functionToCheck &&
-        getType.toString.call(functionToCheck) === '[object Function]'
-    );
 }
