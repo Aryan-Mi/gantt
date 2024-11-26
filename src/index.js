@@ -365,7 +365,6 @@ export default class Gantt {
         this.make_grid_extras();
         this.make_arrows();
         this.map_arrows_on_bars();
-        this.setup_dynamic_container_height();
         this.set_width();
         this.set_scroll_position(this.options.scroll_to);
         this.update_button_position();
@@ -383,18 +382,19 @@ export default class Gantt {
         }
     }
 
+    make_grid() {
+        this.make_grid_rows();
+        this.setup_dynamic_container_height();
+        this.make_grid_background();
+        this.make_grid_header();
+    }
+
     setup_dynamic_container_height() {
         this.$container.style.height =
             this.options.header_height +
             this.options.padding / 2 +
             this.totalRows * (this.options.bar_height + this.options.padding) +
             'px';
-    }
-
-    make_grid() {
-        this.make_grid_rows();
-        this.make_grid_background();
-        this.make_grid_header();
     }
 
     make_grid_extras() {
@@ -419,7 +419,7 @@ export default class Gantt {
         });
 
         $.attr(this.$svg, {
-            height: grid_height + this.options.padding + 100,
+            height: '100%', // or this.$container.style.height,
             width: '100%',
         });
     }
