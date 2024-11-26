@@ -25,9 +25,9 @@
 .gantt-container {
     line-height: 14.5px;
     position: relative;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     font-size: 12px;
-    /* height: 500px; */
 
     & .popup-wrapper {
         position: absolute;
