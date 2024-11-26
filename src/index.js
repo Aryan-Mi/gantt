@@ -426,27 +426,36 @@ export default class Gantt {
 
     make_grid_rows() {
         const rows_layer = createSVG('g', { append_to: this.layers.grid });
-
         const row_width = this.dates.length * this.options.column_width;
         const row_height = this.options.bar_height + this.options.padding;
-
         let row_y = this.options.header_height + this.options.padding / 2;
+
+        function createSVGRow() {
+            createSVG('rect', {
+                x: 0,
+                y: row_y,
+                width: row_width,
+                height: row_height,
+                class: 'grid-row',
+                append_to: rows_layer,
+            });
+        }
 
         let rowIndex = 0;
         this.tasks.forEach((task) => {
             if (task.row_y === rowIndex) {
-                createSVG('rect', {
-                    x: 0,
-                    y: row_y,
-                    width: row_width,
-                    height: row_height,
-                    class: 'grid-row',
-                    append_to: rows_layer,
-                });
+                createSVGRow();
                 row_y += this.options.bar_height + this.options.padding;
                 rowIndex++;
             }
         });
+
+        // Add 2 extra rows for padding
+        for (let i = 0; i < 2; i++) {
+            createSVGRow();
+            row_y += this.options.bar_height + this.options.padding;
+            rowIndex++;
+        }
         this.totalRows = rowIndex;
     }
 
