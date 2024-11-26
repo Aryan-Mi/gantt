@@ -22,6 +22,7 @@ export default class Bar {
 
     prepare_values() {
         this.invalid = this.task.invalid || false;
+        this.readonly = !!this.gantt.options.readonly || !!this.task.readonly;
         this.height = this.gantt.options.bar_height;
         this.image_size = this.height - 5;
         this.compute_x();
@@ -227,7 +228,7 @@ export default class Bar {
     }
 
     draw_resize_handles() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
 
         const bar = this.$bar;
         const handle_width = 8;
@@ -584,7 +585,7 @@ export default class Bar {
     }
 
     update_progressbar_position() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
         this.$bar_progress.setAttribute('x', this.$bar.getX());
         this.$bar_progress.setAttribute(
             'width',
@@ -636,7 +637,7 @@ export default class Bar {
     }
 
     update_handle_position() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
         const bar = this.$bar;
         this.handle_group
             .querySelector('.handle.left')

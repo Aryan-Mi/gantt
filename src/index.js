@@ -1151,6 +1151,7 @@ export default class Gantt {
                 } else if (
                     is_dragging &&
                     !this.options.readonly &&
+                    !bar.readonly &&
                     !this.options.dates_readonly
                 ) {
                     bar.update_bar_position({ x: $bar.ox + $bar.finaldx });
