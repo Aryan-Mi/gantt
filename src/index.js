@@ -202,6 +202,9 @@ export default class Gantt {
                 task.id = `${task.id}`;
             }
 
+            // default progress
+            task.progress = task.progress || 0;
+
             return task;
         });
 
