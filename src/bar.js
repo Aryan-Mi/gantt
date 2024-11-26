@@ -21,7 +21,7 @@ export default class Bar {
     }
 
     prepare_values() {
-        this.invalid = this.task.invalid;
+        this.invalid = this.task.invalid || false;
         this.height = this.gantt.options.bar_height;
         this.image_size = this.height - 5;
         this.compute_x();
