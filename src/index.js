@@ -205,7 +205,23 @@ export default class Gantt {
             return task;
         });
 
+        this.setup_tasks_row_coordinates();
         this.setup_dependencies();
+    }
+
+    setup_tasks_row_coordinates() {
+        let rowLevelIndex = 0;
+        this.tasks.forEach((task, index) => {
+            if (task.row_id == null) {
+                task.row_y = rowLevelIndex++;
+            } else {
+                const indexFound = this.tasks.findIndex(
+                    (t) => t.row_id === task.row_id
+                );
+                task.row_y =
+                    indexFound === index ? rowLevelIndex++ : indexFound;
+            }
+        });
     }
 
     setup_dependencies() {
