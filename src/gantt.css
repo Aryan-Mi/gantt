@@ -22,13 +22,12 @@
     --dark-blue: #2c94ec;
 }
 
-
 .gantt-container {
     line-height: 14.5px;
     position: relative;
     overflow: auto;
     font-size: 12px;
-    height: 500px;
+    /* height: 500px; */
 
     & .popup-wrapper {
         position: absolute;
@@ -158,7 +157,6 @@
     }
 }
 
-
 .gantt {
     user-select: none;
     -webkit-user-select: none;
@@ -217,7 +215,7 @@
         stroke-width: 1;
         stroke-dasharray: 5;
 
-        &~.bar-label {
+        & ~ .bar-label {
             fill: var(--text-light);
         }
     }
@@ -271,7 +269,6 @@
 
     & .bar-wrapper {
         cursor: pointer;
-
 
         &.active {
             & .handle {
