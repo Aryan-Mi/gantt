@@ -407,8 +407,7 @@ export default class Gantt {
         const grid_height =
             this.options.header_height +
             this.options.padding +
-            (this.options.bar_height + this.options.padding) *
-                this.tasks.length;
+            (this.options.bar_height + this.options.padding) * this.totalRows;
 
         createSVG('rect', {
             x: 0,
@@ -433,23 +432,22 @@ export default class Gantt {
 
         let row_y = this.options.header_height + this.options.padding / 2;
 
-        for (let _ of this.tasks) {
-            createSVG('rect', {
-                x: 0,
-                y: row_y,
-                width: row_width,
-                height: row_height,
-                class: 'grid-row',
-                append_to: rows_layer,
-            });
-            if (
-                this.options.lines === 'both' ||
-                this.options.lines === 'horizontal'
-            ) {
+        let rowIndex = 0;
+        this.tasks.forEach((task) => {
+            if (task.row_y === rowIndex) {
+                createSVG('rect', {
+                    x: 0,
+                    y: row_y,
+                    width: row_width,
+                    height: row_height,
+                    class: 'grid-row',
+                    append_to: rows_layer,
+                });
+                row_y += this.options.bar_height + this.options.padding;
+                rowIndex++;
             }
-
-            row_y += this.options.bar_height + this.options.padding;
-        }
+        });
+        this.totalRows = rowIndex;
     }
 
     make_grid_header() {
@@ -569,8 +567,7 @@ export default class Gantt {
         let tick_x = 0;
         let tick_y = this.options.header_height + this.options.padding / 2;
         let tick_height =
-            (this.options.bar_height + this.options.padding) *
-            this.tasks.length;
+            (this.options.bar_height + this.options.padding) * this.totalRows;
 
         let $lines_layer = createSVG('g', {
             class: 'lines_layer',
@@ -582,7 +579,7 @@ export default class Gantt {
         const row_width = this.dates.length * this.options.column_width;
         const row_height = this.options.bar_height + this.options.padding;
         if (this.options.lines !== 'vertical') {
-            for (let _ of this.tasks) {
+            for (let i = 0; i < this.totalRows - 1; i++) {
                 createSVG('line', {
                     x1: 0,
                     y1: row_y + row_height,
@@ -645,7 +642,7 @@ export default class Gantt {
                     this.options.column_width;
                 const height =
                     (this.options.bar_height + this.options.padding) *
-                    this.tasks.length;
+                    this.totalRows;
                 createSVG('rect', {
                     x,
                     y: this.options.header_height + this.options.padding / 2,
@@ -720,7 +717,7 @@ export default class Gantt {
             const top = this.options.header_height + this.options.padding / 2;
             const height =
                 (this.options.bar_height + this.options.padding) *
-                this.tasks.length;
+                this.totalRows;
             this.$current_highlight = this.create_el({
                 top,
                 left,
