@@ -219,7 +219,9 @@ export default class Gantt {
                     (t) => t.row_id === task.row_id
                 );
                 task.row_y =
-                    indexFound === index ? rowLevelIndex++ : indexFound;
+                    indexFound === index
+                        ? rowLevelIndex++
+                        : this.tasks[indexFound].row_y;
             }
         });
     }
