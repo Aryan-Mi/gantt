@@ -28,6 +28,8 @@
     overflow-x: auto;
     overflow-y: hidden;
     font-size: 12px;
+    /* height: 500px; */
+    width: fit-content;
 
     & .popup-wrapper {
         position: absolute;

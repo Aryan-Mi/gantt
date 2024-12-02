@@ -6,21 +6,6 @@ const MINUTE = 'minute';
 const SECOND = 'second';
 const MILLISECOND = 'millisecond';
 
-const SHORTENED = {
-    January: 'Jan',
-    February: 'Feb',
-    March: 'Mar',
-    April: 'Apr',
-    May: 'May',
-    June: 'Jun',
-    July: 'Jul',
-    August: 'Aug',
-    September: 'Sep',
-    October: 'Oct',
-    November: 'Nov',
-    December: 'Dec',
-};
-
 export default {
     parse_duration(duration) {
         const regex = /([0-9]+)(y|m|d|h|min|s|ms)/gm;
@@ -97,6 +82,9 @@ export default {
         const dateTimeFormat = new Intl.DateTimeFormat(lang, {
             month: 'long',
         });
+        const dateTimeFormatShort = new Intl.DateTimeFormat(lang, {
+            month: 'short',
+        });
         const month_name = dateTimeFormat.format(date);
         const month_name_capitalized =
             month_name.charAt(0).toUpperCase() + month_name.slice(1);
@@ -112,7 +100,7 @@ export default {
             SSS: values[6],
             D: values[2],
             MMMM: month_name_capitalized,
-            MMM: SHORTENED[month_name_capitalized],
+            MMM: dateTimeFormatShort.format(date),
         };
 
         let str = format_string;
@@ -136,7 +124,7 @@ export default {
 
     diff(date_a, date_b, scale = DAY) {
         let milliseconds, seconds, hours, minutes, days, months, years;
-        
+
         milliseconds = date_a - date_b;
         seconds = milliseconds / 1000;
         minutes = seconds / 60;
@@ -145,17 +133,17 @@ export default {
         // Calculate months across years
         const yearDiff = date_a.getFullYear() - date_b.getFullYear();
         const monthDiff = date_a.getMonth() - date_b.getMonth();
-        
+
         /* If monthDiff is negative, date_b is in an earlier month than
         date_a and thus subtracted from the year difference in months */
         months = yearDiff * 12 + monthDiff;
-        
+
         /* If date_a's (e.g. march 1st) day of the month is smaller than date_b (e.g. february 28th),
         adjust the month difference */
         if (date_a.getDate() < date_b.getDate()) {
             months--;
         }
-        
+
         // Calculate years based on actual months
         years = months / 12;
 

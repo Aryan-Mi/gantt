@@ -1,6 +1,6 @@
 {
     "name": "frappe-gantt",
-    "version": "0.8.1",
+    "version": "0.9.0",
     "description": "A simple, modern, interactive gantt library for the web",
     "main": "src/index.js",
     "type": "module",
@@ -9,9 +9,7 @@
         "dev": "vite",
         "build-dev": "vite build --watch",
         "build": "vite build",
-        "test": "jest",
         "lint": "eslint src/**/*.js",
-        "test:watch": "jest --watch",
         "prettier": "prettier --write \"{src/*,tests/*,rollup.config}.js\"",
         "prettier-check": "prettier --check \"{src/*,tests/*,rollup.config}.js\""
     },
@@ -26,7 +24,9 @@
     ],
     "exports": {
         ".": {
-            "require": "./dist/frappe-gantt.umd.js"
+            "require": "./dist/frappe-gantt.umd.js",
+            "import": "./dist/frappe-gantt.es.js",
+            "style": "./dist/frappe-gantt.css"
         }
     },
     "keywords": [
@@ -44,10 +44,9 @@
     },
     "homepage": "https://github.com/frappe/gantt",
     "devDependencies": {
-        "eslint": "^4.17.0",
+        "eslint": "^9.15.0",
         "eslint-config-prettier": "^2.9.0",
         "eslint-plugin-prettier": "^2.6.0",
-        "jest": "^22.2.1",
         "postcss-nesting": "^12.1.2",
         "prettier": "3.2.5",
         "vite": "^5.2.10"
@@ -55,5 +54,7 @@
     "eslintIgnore": [
         "dist"
     ],
-    "packageManager": "yarn@1.22.22"
+    "sideEffects": [
+        "*.css"
+    ]
 }
