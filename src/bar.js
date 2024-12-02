@@ -21,7 +21,8 @@ export default class Bar {
     }
 
     prepare_values() {
-        this.invalid = this.task.invalid;
+        this.invalid = this.task.invalid || false;
+        this.readonly = !!this.gantt.options.readonly || !!this.task.readonly;
         this.height = this.gantt.options.bar_height;
         this.image_size = this.height - 5;
         this.compute_x();
@@ -132,7 +133,7 @@ export default class Bar {
             this.$expected_bar_progress,
             'width',
             0,
-            this.expected_progress_width,
+            this.expected_progress_width
         );
     }
 
@@ -227,7 +228,7 @@ export default class Bar {
     }
 
     draw_resize_handles() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
 
         const bar = this.$bar;
         const handle_width = 8;
@@ -289,7 +290,7 @@ export default class Bar {
                 if (!opened) {
                     this.show_popup(e.offsetX || e.layerX);
                     document.getElementById(
-                        `highlight-${task_id}`,
+                        `highlight-${task_id}`
                     ).style.display = 'block';
                 } else {
                     this.gantt.hide_popup();
@@ -305,9 +306,9 @@ export default class Bar {
                     (timeout = setTimeout(() => {
                         this.show_popup(e.offsetX || e.layerX);
                         document.getElementById(
-                            `highlight-${task_id}`,
+                            `highlight-${task_id}`
                         ).style.display = 'block';
-                    }, 200)),
+                    }, 200))
             );
 
             $.on(this.group, 'mouseleave', () => {
@@ -341,12 +342,12 @@ export default class Bar {
         const start_date = date_utils.format(
             this.task._start,
             'MMM D',
-            this.gantt.options.language,
+            this.gantt.options.language
         );
         const end_date = date_utils.format(
             date_utils.add(this.task._end, -1, 'second'),
             'MMM D',
-            this.gantt.options.language,
+            this.gantt.options.language
         );
         const subtitle = `${start_date} -  ${end_date}<br/>Progress: ${this.task.progress}`;
         this.gantt.show_popup({
@@ -465,7 +466,7 @@ export default class Bar {
         let new_start_date = date_utils.add(
             this.gantt.gantt_start,
             x_in_units * this.gantt.options.step,
-            'hour',
+            'hour'
         );
         const start_offset =
             this.gantt.gantt_start.getTimezoneOffset() -
@@ -474,7 +475,7 @@ export default class Bar {
             new_start_date = date_utils.add(
                 new_start_date,
                 start_offset,
-                'minute',
+                'minute'
             );
         }
 
@@ -482,7 +483,7 @@ export default class Bar {
         const new_end_date = date_utils.add(
             new_start_date,
             width_in_units * this.gantt.options.step,
-            'hour',
+            'hour'
         );
 
         return { new_start_date, new_end_date };
@@ -523,7 +524,7 @@ export default class Bar {
                 date_utils.diff(task_start, gantt_start, 'month') * 30;
             const dayInMonth = Math.min(
                 29,
-                date_utils.format(task_start, 'DD'),
+                date_utils.format(task_start, 'DD')
             );
             const diff = diffDaysBasedOn30DayMonths + dayInMonth;
 
@@ -536,7 +537,7 @@ export default class Bar {
         this.y =
             this.gantt.options.header_height +
             this.gantt.options.padding +
-            this.task._index * (this.height + this.gantt.options.padding);
+            this.task.row_y * (this.height + this.gantt.options.padding);
     }
 
     compute_duration() {
@@ -594,16 +595,16 @@ export default class Bar {
             'width',
             this.gantt.options.column_width *
                 this.duration *
-                (this.expected_progress / 100) || 0,
+                (this.expected_progress / 100) || 0
         );
     }
 
     update_progressbar_position() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
         this.$bar_progress.setAttribute('x', this.$bar.getX());
         this.$bar_progress.setAttribute(
             'width',
-            this.$bar.getWidth() * (this.task.progress / 100),
+            this.$bar.getWidth() * (this.task.progress / 100)
         );
     }
 
@@ -623,11 +624,11 @@ export default class Bar {
                 img.setAttribute('x', bar.getX() + bar.getWidth() + padding);
                 img_mask.setAttribute(
                     'x',
-                    bar.getX() + bar.getWidth() + padding,
+                    bar.getX() + bar.getWidth() + padding
                 );
                 label.setAttribute(
                     'x',
-                    bar.getX() + bar.getWidth() + x_offset_label_img,
+                    bar.getX() + bar.getWidth() + x_offset_label_img
                 );
             } else {
                 label.setAttribute('x', bar.getX() + bar.getWidth() + padding);
@@ -639,19 +640,19 @@ export default class Bar {
                 img_mask.setAttribute('x', bar.getX() + padding);
                 label.setAttribute(
                     'x',
-                    bar.getX() + barWidth / 2 + x_offset_label_img,
+                    bar.getX() + barWidth / 2 + x_offset_label_img
                 );
             } else {
                 label.setAttribute(
                     'x',
-                    bar.getX() + barWidth / 2 - labelWidth / 2,
+                    bar.getX() + barWidth / 2 - labelWidth / 2
                 );
             }
         }
     }
 
     update_handle_position() {
-        if (this.invalid || this.gantt.options.readonly) return;
+        if (this.invalid || this.readonly) return;
         const bar = this.$bar;
         this.handle_group
             .querySelector('.handle.left')
@@ -669,12 +670,4 @@ export default class Bar {
             arrow.update();
         }
     }
-}
-
-function isFunction(functionToCheck) {
-    let getType = {};
-    return (
-        functionToCheck &&
-        getType.toString.call(functionToCheck) === '[object Function]'
-    );
 }

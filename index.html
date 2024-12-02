@@ -23,8 +23,7 @@
                 background-color: #252525;
             }
         </style>
-        <link rel="stylesheet" href="dist/frappe-gantt.css" />
-        <script src="dist/frappe-gantt.umd.js"></script>
+        <link rel="stylesheet" href="src/gantt.css" />
     </head>
     <body>
         <div class="container">
@@ -34,6 +33,8 @@
             <div class="gantt-target"></div>
         </div>
         <script type="module">
+            import Gantt from './src/index.js';
+
             let tasks = [
                 {
                     start: '2024-04-01',

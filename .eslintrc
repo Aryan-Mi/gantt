@@ -1,7 +1,10 @@
 {
     "extends": ["plugin:prettier/recommended"],
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": "latest",
         "sourceType": "module"
+    },
+    "env": {
+        "es2021": true
     }
 }

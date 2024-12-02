@@ -1,4 +1,13 @@
 {
     "tabWidth": 4,
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+        {
+            "files": [".eslintrc", "vite.config.js"],
+            "options": {
+                "trailingComma": "none"
+            }
+        }
+    ]
 }
